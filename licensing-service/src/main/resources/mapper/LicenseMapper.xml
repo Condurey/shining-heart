@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shiningheart.licensingsvr.repository.LicenseRepository">
+    <resultMap id="LicenseMap" type="com.shiningheart.licensingsvr.model.License">
+        <id column="license_id" jdbcType="VARCHAR" property="licenseId"/>
+        <result column="organization_id" jdbcType="VARCHAR" property="organizationId"/>
+        <result column="license_type" jdbcType="VARCHAR" property="licenseType"/>
+        <result column="product_name" jdbcType="VARCHAR" property="contactEmail"/>
+        <result column="license_max" jdbcType="INTEGER" property="licenseMax"/>
+        <result column="license_allocated" jdbcType="INTEGER" property="licenseAllocated"/>
+        <result column="comment" jdbcType="VARCHAR" property="comment"/>
+    </resultMap>
+
+    <update id="save" parameterType="com.shiningheart.licensingsvr.model.License">
+        UPDATE licenses
+        <set>
+            <if test="organizationId != null and organizationId != ''">
+                organization_id = #{organizationId},
+            </if>
+            <if test="licenseType != null and licenseType != ''">
+                license_type = #{licenseType},
+            </if>
+            <if test="contactEmail != null and contactEmail != ''">
+                product_name = #{contactEmail},
+            </if>
+            <if test="licenseMax != null and licenseMax != ''">
+                license_max = #{licenseMax},
+            </if>
+            <if test="licenseAllocated != null and licenseAllocated != ''">
+                license_allocated = #{licenseAllocated},
+            </if>
+            <if test="comment != null and comment != ''">
+                comment = #{comment},
+            </if>
+        </set>
+        WHERE
+        license_id = #{licenseId}
+    </update>
+
+    <select id="findByOrganizationId" resultMap="LicenseMap">
+        SELECT
+            license_id, organization_id, license_type, product_name, license_max, license_allocated, comment
+        FROM licenses
+        WHERE
+            organization_id = #{organizationId}
+    </select>
+
+    <select id="findByOrganizationIdAndLicenseId" resultMap="LicenseMap">
+        SELECT
+            license_id, organization_id, license_type, product_name, license_max, license_allocated, comment
+        FROM licenses
+        WHERE
+            license_id = #{licenseId} AND organization_id = #{organizationId}
+    </select>
+
+    <delete id="delete">
+        DELETE FROM licenses
+        WHERE
+            license_id = #{licenseId}
+    </delete>
+
+
+</mapper>

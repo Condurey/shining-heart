@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: demo
+#  cloud:
+#    config:
+#      uri: http://localhost:8888/ # 配置中心的具体地址
+#      name: organizationservice  # 对应{application}部分
+#      profile: default  # 对应{profile}部分
+
